@@ -85,7 +85,14 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
+    def gcd(a, b):
+        if b==0:
+            return a
+        return gcd(b, a % b)
 
+    def lcm(a, b):
+        return a * b // gcd(a, b)
+    return lcm(a, b)
 
 
 def cycle(f1, f2, f3):
@@ -115,4 +122,16 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
-
+    def g(n):
+        def h(x):
+            if n==0:
+                return x
+            pre_result = g(n-1)(x)
+            if n % 3 == 1:
+                return f1(pre_result)
+            elif n % 3 == 2:
+                return f2(pre_result)
+            else:
+                return f3(pre_result)
+        return h
+    return g
