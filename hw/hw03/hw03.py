@@ -25,7 +25,13 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    if n == 0:
+        return 0
+    else:
+        if n % 10 == 8:
+            return 1 + num_eights(n // 10)
+        else:
+            return num_eights(n // 10)
 
 def digit_distance(n):
     """Determines the digit distance of n.
@@ -47,6 +53,12 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    else:
+        ls=n%10
+        seclast=n//10%10
+        return abs(ls-seclast)+digit_distance(n//10)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -71,6 +83,14 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(k,is_odd):
+        if k>n:
+            return 0
+        if is_odd:
+            return odd_func(k)+helper(k+1,not is_odd)
+        else:
+            return even_func(k)+helper(k+1,not is_odd)
+    return helper(1,True)
 
 
 def next_smaller_dollar(bill):
@@ -107,8 +127,16 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
-
-
+    def count_helper(total, max_bill):
+        if total == 0:
+            return 1
+        elif total < 0: 
+            return 0
+        elif max_bill == None:
+            return 0
+        else:
+            return count_helper(total -max_bill, max_bill) + count_helper(total, next_smaller_dollar(max_bill))
+    return count_helper(total, 100)
 def next_larger_dollar(bill):
     """Returns the next larger bill in order."""
     if bill == 1:
@@ -143,8 +171,16 @@ def count_dollars_upward(total):
     True
     """
     "*** YOUR CODE HERE ***"
-
-
+    def count_helper(total, min_bill):
+        if total == 0:
+            return 1
+        elif total < 0: 
+            return 0
+        elif min_bill == None:
+            return 0
+        else:
+            return count_helper(total -min_bill, min_bill) + count_helper(total, next_larger_dollar(min_bill))
+    return count_helper(total, 1)
 def print_move(origin, destination):
     """Print instructions to move a disk."""
     print("Move the top disk from rod", origin, "to rod", destination)
@@ -178,6 +214,13 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        print_move(start, end)
+    else:
+        other = 6 - start - end
+        move_stack(n - 1, start, other)
+        print_move(start, end)
+        move_stack(n - 1, other, end)
 
 
 from operator import sub, mul
@@ -194,4 +237,4 @@ def make_anonymous_factorial():
     True
     """
     return 'YOUR_EXPRESSION_HERE'
-
+    
